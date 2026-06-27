@@ -35,12 +35,35 @@ body{
   gap:6px;
   min-width:0;
 }
+/* Force a small, fixed logo size and preserve aspect ratio */
 .logo{
-  width:32px;        /* much smaller logo */
-  height:32px;
+  width:40px;            /* desired displayed width */
+  height:40px;           /* desired displayed height */
+  max-width:40px;
+  max-height:40px;
+  display:block;
   object-fit:contain;
+  object-position:center;
   border-radius:4px;
 }
+
+/* If some global rule is overriding the logo size, use this stronger rule */
+.site-header .brand .logo{
+  width:40px !important;
+  height:40px !important;
+  max-width:40px !important;
+  max-height:40px !important;
+}
+
+/* Optional: keep the brand compact so the slogan sits neatly under the small logo */
+.brand{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  align-items:flex-start;
+  line-height:1;
+}
+
 
 /* Navigation links (center area) */
 .nav{
