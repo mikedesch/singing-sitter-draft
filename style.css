@@ -16,41 +16,40 @@ body{
   line-height:1.5;
 }
 
+/* Header layout */
 .site-header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:var(--gap);
+  gap:16px;
   padding:12px 20px;
   border-bottom:1px solid #eee;
   max-width:var(--max-width);
   margin:0 auto;
 }
 
+/* Brand: keep slogan beneath logo but shrink logo */
 .brand{
   display:flex;
   flex-direction:column;
   gap:6px;
+  min-width:0;
 }
-
 .logo{
-  width:48px;
-  height:48px;
+  width:32px;        /* much smaller logo */
+  height:32px;
   object-fit:contain;
+  border-radius:4px;
 }
 
-.slogan{
-  margin:0;
-  font-size:0.9rem;
-  color:var(--muted);
-}
-
+/* Navigation links (center area) */
 .nav{
   display:flex;
   gap:18px;
   align-items:center;
+  flex:1;
+  justify-content:center;
 }
-
 .nav a{
   color:var(--accent);
   text-decoration:none;
@@ -58,24 +57,59 @@ body{
   padding:6px 8px;
   border-radius:6px;
 }
+.nav a:hover{ background:rgba(11,95,255,0.06); }
 
-.nav a:hover{ background:rgba(11,95,255,0.08); }
-
-.panel{
-  padding:64px 20px;
-  max-width:var(--max-width);
-  margin:0 auto;
+/* Auth buttons on the far right */
+.auth-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
 }
 
-.site-footer{
-  padding:24px 20px;
-  text-align:center;
-  color:var(--muted);
-  border-top:1px solid #f0f0f0;
+/* Button base */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 12px;
+  font-weight:600;
+  border-radius:8px;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all 0.15s ease;
+  border:1px solid transparent;
 }
 
-/* Responsive: stack brand and nav on small screens */
+/* Primary filled button */
+.btn-primary{
+  background:var(--accent);
+  color:#fff;
+  box-shadow:0 1px 0 rgba(0,0,0,0.04);
+}
+.btn-primary:hover{ transform:translateY(-1px); filter:brightness(1.03); }
+
+/* Ghost / outline button */
+.btn-ghost{
+  background:transparent;
+  color:var(--accent);
+  border-color:rgba(11,95,255,0.12);
+}
+.btn-ghost:hover{ background:rgba(11,95,255,0.06); }
+
+/* Focus states for accessibility */
+.btn:focus, .nav a:focus{
+  outline:3px solid rgba(11,95,255,0.14);
+  outline-offset:2px;
+}
+
+/* Responsive: stack header on small screens */
 @media (max-width:720px){
-  .site-header{ flex-direction:column; align-items:flex-start; gap:8px; }
-  .nav{ width:100%; justify-content:flex-start; gap:12px; overflow:auto; }
+  .site-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .nav{ order:3; width:100%; justify-content:flex-start; overflow:auto; gap:12px; }
+  .auth-actions{ order:2; width:100%; justify-content:flex-end; }
+  .brand{ order:1; }
 }
