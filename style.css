@@ -28,41 +28,37 @@ body{
   margin:0 auto;
 }
 
-/* Brand: keep slogan beneath logo but shrink logo */
-.brand{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  min-width:0;
-}
-/* Force a small, fixed logo size and preserve aspect ratio */
-.logo{
-  width:40px;            /* desired displayed width */
-  height:40px;           /* desired displayed height */
-  max-width:40px;
-  max-height:40px;
-  display:block;
-  object-fit:contain;
-  object-position:center;
-  border-radius:4px;
-}
-
-/* If some global rule is overriding the logo size, use this stronger rule */
-.site-header .brand .logo{
-  width:40px !important;
-  height:40px !important;
-  max-width:40px !important;
-  max-height:40px !important;
-}
-
-/* Optional: keep the brand compact so the slogan sits neatly under the small logo */
+/* Brand container: keep compact and prevent stretching */
 .brand{
   display:flex;
   flex-direction:column;
   gap:6px;
   align-items:flex-start;
   line-height:1;
+  flex: 0 0 auto; /* prevent brand from growing */
 }
+
+/* Force a small, fixed logo size and preserve aspect ratio */
+.logo{
+  width:40px;
+  height:40px;
+  max-width:none;
+  max-height:none;
+  display:block;
+  object-fit:contain;
+  object-position:center;
+  border-radius:4px;
+}
+
+/* Stronger override if a global img rule is present */
+.site-header .brand .logo{
+  width:40px !important;
+  height:40px !important;
+  max-width:none !important;
+  max-height:none !important;
+  display:block !important;
+}
+
 
 
 /* Navigation links (center area) */
