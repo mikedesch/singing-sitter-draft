@@ -1,17 +1,16 @@
-
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Minimal Single Page</title>
+  <title>Minimal Single Page with Carousel</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="brand">
       <img src="logo.svg" alt="Logo" class="logo" />
-      <p class="slogan">A short one‑sentence slogan goes here.</p>
+      <p class="slogan">A short one-sentence slogan goes here.</p>
     </div>
     <nav class="nav">
       <a href="#about">About</a>
@@ -19,6 +18,22 @@
       <a href="#contact">Contact</a>
     </nav>
   </header>
+
+  <!-- Carousel -->
+  <section class="carousel-section" aria-label="Featured images">
+    <div class="carousel" id="carousel" role="region" aria-roledescription="carousel" aria-label="Image carousel">
+      <div class="slides">
+        <img src="images/slide1.jpg" alt="Description of slide 1" class="slide" />
+        <img src="images/slide2.jpg" alt="Description of slide 2" class="slide" />
+        <img src="images/slide3.jpg" alt="Description of slide 3" class="slide" />
+      </div>
+
+      <button class="nav-btn prev" aria-label="Previous slide">‹</button>
+      <button class="nav-btn next" aria-label="Next slide">›</button>
+
+      <div class="dots" role="tablist" aria-label="Slide selection"></div>
+    </div>
+  </section>
 
   <main>
     <section id="about" class="panel">
@@ -42,8 +57,47 @@
   </footer>
 
   <script>
-    // small enhancement: set current year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Minimal carousel logic
+    (function(){
+      const carousel = document.getElementById('carousel');
+      const slidesWrap = carousel.querySelector('.slides');
+      const slides = Array.from(carousel.querySelectorAll('.slide'));
+      const prev = carousel.querySelector('.prev');
+      const next = carousel.querySelector('.next');
+      const dotsContainer = carousel.querySelector('.dots');
+      let index = 0;
+
+      // create dots
+      slides.forEach((_, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'dot';
+        btn.setAttribute('aria-label', 'Go to slide ' + (i+1));
+        btn.dataset.index = i;
+        dotsContainer.appendChild(btn);
+      });
+      const dots = Array.from(dotsContainer.children);
+
+      function update() {
+        slidesWrap.style.transform = `translateX(${-index * 100}%)`;
+        dots.forEach((d,i)=> d.classList.toggle('active', i===index));
+      }
+
+      prev.addEventListener('click', ()=> { index = (index - 1 + slides.length) % slides.length; update(); });
+      next.addEventListener('click', ()=> { index = (index + 1) % slides.length; update(); });
+      dots.forEach(d => d.addEventListener('click', e => { index = Number(e.currentTarget.dataset.index); update(); }));
+
+      // keyboard support
+      carousel.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft') prev.click();
+        if (e.key === 'ArrowRight') next.click();
+      });
+
+      // make carousel focusable
+      carousel.tabIndex = 0;
+      update();
+    })();
   </script>
 </body>
 </html>
